@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Three-Tier Application with Docker: A Step-by-Step Guide</title>
+    <style>
+         img {
+            max-width: 80%; /* Ensures the image does not exceed the width of its container */
+            height: 40; /* Allows the image height to adjust proportionally with the width */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        h1, h2 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        header {
+            text-decoration: underline; /* Underline the header */
+        }
+        .title-author-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        
+        .author {
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Building a Three-Tier Application with Docker: A Step-by-Step Guide</h1>
+        <div class="author">by Akanksha Sharma</div>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>Welcome to our step-by-step guide on building a three-tier application using Docker! In this tutorial, we'll walk you through the process of creating a scalable and maintainable application architecture using Docker containers.</p>
+            <p>Whether you're a seasoned developer looking to learn Docker or someone interested in building modern applications with containerization, this guide is designed to provide you with a comprehensive understanding of the concepts and practical skills needed to deploy a three-tier application.</p>
+            <p>By the end of this tutorial, you'll have a clear understanding of:</p>
+            <ul>
+                <li>The architecture of a three-tier application</li>
+                <li>How to use Docker to containerize each tier of the application</li>
+                <li>Writing Dockerfiles and creating Docker images</li>
+                <li>Defining multi-container setups using Docker Compose</li>
+                <li>Pushing Docker images to Docker Hub for sharing</li>
+                <li>Verifying and deploying your application</li>
+            </ul>
+            <p>So let's dive in and start building!</p>
+        </section>
+       
+            <section>
+                <h2>Part 1: Setting Up the Project</h2>
+                <p>In this initial phase of our journey, we've already set up the foundation for our three-tier application. We began by selecting a suitable project to work with, which served as the basis for our modifications and enhancements.</p>
+                <p>For this tutorial, we chose a project named "Amazona: E-commerce for Men's Clothes." However, we've already transformed it into a new and exciting venture called "Brown Wood: Home & Office Furniture E-Commerce Website."</p>
+                <p>This transformation involved significant changes to the project's design, functionality, and overall theme. We rebranded the user interface, introduced new features tailored to the home and office furniture market, and refined the user experience to align with our vision.</p>
+                <p>Throughout this process, we leveraged our creativity and expertise to mold the project into a unique and compelling offering that caters to the needs and preferences of our target audience. By infusing our personal touch into the project, we breathed new life into it and set the stage for a remarkable journey ahead.</p>
+                <p>So let's roll up our sleeves, unleash our creativity, and embark on this exhilarating adventure with "Brown Wood"!</p>
+            
+            
+            </section>
+        <section>
+            <h2>Part 2: Understanding the Project Structure</h2>
+            <p>After customizing the project, we structured it into three main directories:</p>
+            <ul>
+                <li><code>backend</code>: Contains the Node.js backend code.</li>
+                <li><code>frontend</code>: Contains the React frontend code.</li>
+                <li><code>docker-compose.yml</code>: Defines the multi-container setup for our Docker environment.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Part 3: Writing Dockerfiles</h2>
+            <h3>Backend Dockerfile</h3>
+            <p>The Dockerfile for the backend service:</p>
+            <pre><code>FROM node:alpine
+                        WORKDIR /app/backend
+                        COPY package*.json ./
+                        RUN npm install
+                        COPY . .
+                        EXPOSE 5000
+                        CMD ["npm", "start"]</code></pre>
+            <h3>Frontend Dockerfile</h3>
+            <p>The Dockerfile for the frontend service:</p>
+            <pre><code>FROM node:alpine
+                        WORKDIR /app/frontend
+                        COPY package*.json ./
+                        RUN npm install
+                        COPY . .
+                        EXPOSE 3000
+                        CMD ["npm", "start"]</code></pre>
+        </section>
+        <section>
+            <h2>Part 4: Creating Docker Containers</h2>
+            <p>Before we define the Docker Compose file, let's create Docker containers for each service:</p>
+            <pre><code>docker build -t backend-image ./backend</code></pre>
+            <pre><code>docker build -t frontend-image ./frontend</code></pre>
+            <p>Replace <code>backend-image</code> and <code>frontend-image</code> with the desired names for your Docker images.</p>
+            <img src="Screenshot 2024-04-23 232508.png" alt="Containers">
+        </section>
+        <section>
+            <h2>Part 5: Creating Docker Compose File</h2>
+            <p>Now that we have our Docker containers, let's define the Docker Compose file to manage them:</p>
+            <pre><code>version: '3'
+                    services:
+                    backend:
+                        image: backend-image
+                        ports:
+                        - "5000:5000"
+                        depends_on:
+                        - mongodb
+                    frontend:
+                        image: frontend-image
+                        ports:
+                        - "3000:3000"
+                        depends_on:
+                        - backend
+                    mongodb:
+                        image: mongo
+                        ports:
+                        - "27017:27017"</code></pre>
+        </section>
+        <section>
+            <h2>Part 6: Building and Running the Application</h2>
+            <p>Let's build and run our application:</p>
+            <pre><code>docker-compose up --build</code></pre>
+            <p>After running the command, Docker will start building the images and containers for our three-tier application.</p>
+            <img src="Screenshot 2024-04-23 134946.png" alt="frontend">
+            <img src="Screenshot 2024-04-23 135012.png" alt="database">
+        </section>
+        <section>
+            <h2>Part 7: Pushing Images to Docker Hub</h2>
+            <p>Once the Docker build process completes, we need to push our Docker images to Docker Hub to make them accessible to others:</p>
+            <pre><code>docker login</code></pre>
+            <pre><code>docker tag &lt;image_id&gt; username/repository:tag</code></pre>
+            <pre><code>docker push username/repository:tag</code></pre>
+            <p><code>docker akankshaaa8</code> <code>21bcp281</code> <code>latest:</code><code>1a56ae5c4174</code> </p>
+            <img src="Screenshot 2024-04-24 004116.png" alt="dockerhub images">
+            <img src="Screenshot 2024-04-23 134917.png" alt="images">
+        </section>
+        <section>
+            <h2>Part 8: Verification</h2>
+            <p>After pushing the images to Docker Hub, others can pull and run them. You can also verify the images on Docker Hub by visiting your repository's page.</p>
+        </section>
+        <section>
+            <h2>Conclusion</h2>
+            <p>Through this tutorial, we've transformed a pre-existing project into a new one tailored to our needs. By understanding the project structure, writing Dockerfiles, creating Docker containers, and defining a Docker Compose file, we've successfully built, deployed, and shared our three-tier application using Docker. This approach enables us to create scalable and maintainable applications with ease.</p>
+            <p><em>Original Project: <a href="https://github.com/basir/node-react-ecommerce?tab=readme-ov-file">amazona</a> by ecommerce-devs </em><cite>basir</cite></p>
+        </section>
+    </main>
+    <footer>
+       
+    </footer>
+</body>
+</html>
