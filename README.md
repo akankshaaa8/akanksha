@@ -1,21 +1,22 @@
-#Dockerfile Explanation Backend
--FROM node:14: Specifies the base image to use, which is an official Node.js image with version   14.
--WORKDIR /app/backend: Sets the working directory inside the Docker container where subsequent   commands will be executed.
--COPY ./package*.json ./: Copies the package.json and package-lock.json files from the host       machine (your local filesystem) to the /app/backend directory inside the container.
--RUN npm install: Installs the dependencies specified in package.json.
--COPY . .: Copies the rest of the backend source code from the host machine to the current     
+## Dockerfile Explanation Backend
+
+- FROM node:14: Specifies the base image to use, which is an official Node.js image with version   14.
+- WORKDIR /app/backend: Sets the working directory inside the Docker container where subsequent   commands will be executed.
+- COPY ./package*.json ./: Copies the package.json and package-lock.json files from the host       machine (your local filesystem) to the /app/backend directory inside the container.
+- RUN npm install: Installs the dependencies specified in package.json.
+- COPY . .: Copies the rest of the backend source code from the host machine to the current     
 directory inside the container.
--EXPOSE 5000: Exposes port 5000 to allow communication with the backend server from outside     the container.
--CMD ["npm", "start"]: Specifies the default command to run when the container starts, which in 
+- EXPOSE 5000: Exposes port 5000 to allow communication with the backend server from outside     the container.
+- CMD ["npm", "start"]: Specifies the default command to run when the container starts, which in 
   this case is npm start to start the backend server.
-#Dockerfile Explanation frontend
--FROM node:14: Specifies the base image to use, which is an official Node.js image with version 14.
--WORKDIR /app/frontend: Sets the working directory inside the Docker container where subsequent commands will be executed.
--COPY ./package*.json ./: Copies the package.json and package-lock.json files from the host machine (your local filesystem) to the /app/frontend directory inside the container.
--RUN npm install: Installs the dependencies specified in package.json.
--COPY . .: Copies the rest of the frontend source code from the host machine to the current directory inside the container.
--EXPOSE 3000: Exposes port 3000 to allow communication with the frontend server from outside the container.
--CMD ["npm", "start"]: Specifies the default command to run when the container starts, which in this case is npm start to start the frontend server.
+## Dockerfile Explanation frontend
+- FROM node:14: Specifies the base image to use, which is an official Node.js image with version 14.
+- WORKDIR /app/frontend: Sets the working directory inside the Docker container where subsequent commands will be executed.
+- COPY ./package*.json ./: Copies the package.json and package-lock.json files from the host machine (your local filesystem) to the /app/frontend directory inside the container.
+- RUN npm install: Installs the dependencies specified in package.json.
+- COPY . .: Copies the rest of the frontend source code from the host machine to the current directory inside the container.
+- EXPOSE 3000: Exposes port 3000 to allow communication with the frontend server from outside the container.
+- CMD ["npm", "start"]: Specifies the default command to run when the container starts, which in this case is npm start to start the frontend server.
 
 These Dockerfiles are used to create Docker images for the backend and frontend services of your application. You can build these images using docker build command and then use them to run containers for your application.
 
